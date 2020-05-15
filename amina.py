@@ -26,7 +26,7 @@ class job:
         self.satatement = []
 
         self.frame()
-        self.bautton()
+        self.bautton([])
 
 
 
@@ -83,7 +83,7 @@ class job:
         self.bas_frame.grid_propagate(0)
 
 
-    def bautton(self):
+    def bautton(self,dataset):
         self.bpretreatement=Button(self.haut_frame2,text='Pretreatement',width=self.x//80,bg='#1B2631',fg='white', relief=GROOVE )
         self.bpretreatement.grid(row=0,column=0,sticky=S)
 
@@ -151,9 +151,10 @@ class job:
         self.scrollbarh.grid(row=2, column=0,columnspan=2,sticky=W+E)
 
         self.listbox.insert(END, "id                  " + "  sentiment            " + "                                                   text")
+        statement=dataset
         for i in range(len(self.id)):
 
-            self.listbox.insert(END,str(self.id[i])+"   "+"                 " +str(self.sentiment[i])+"                         "+str(self.statement[i]))
+            self.listbox.insert(END,str(self.id[i])+"   "+"                 " +str(self.sentiment[i])+"                         "+str(statement[i]))
 
         self.listbox.config(yscrollcommand=self.scrollbarv.set)
         self.listbox.config(xscrollcommand=self.scrollbarh.set)
@@ -175,8 +176,9 @@ class job:
         self.data['statement']=self.data["statement"].apply(lambda x :" ".join(word.lower() for word in x.split()))
         self.data['statement']=self.data["statement"].str.replace(r"\W"," ")
         self.statement= list(self.data["statement"])
+        self.statement = go_nettoyage.replace1(self.statement)
 
-        self.bautton()
+        self.bautton(self.statement)
         self.analyse_data()
 
 
@@ -191,7 +193,9 @@ class job:
         self.sentiment=list(self.data["sentiment"])
         self.statement=list(self.data["statement"])
 
-        self.bautton()
+
+        self.bautton(self.statement)
+
         self.analyse_data()
         print(self.data["statement"][0])
 
@@ -205,9 +209,8 @@ class job:
         pass
 
     def stemming (self):
-
-        self.satatement=go_nettoyage.stem(self.satatement)
-        self.bautton()
+        self.statement=go_nettoyage.stem(self.statement)
+        self.bautton(self.statement)
 
 
 

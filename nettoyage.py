@@ -13,11 +13,16 @@ from nltk.tokenize import sent_tokenize ,word_tokenize
 import re
 list_statement_steemed=[]
 list_statment_word=[]
+list_remove_char=[]
 lis=['hello word','how rae you']
-for i in lis:
-    list_statment_word.append(word_tokenize(i))
+a=''
+list2=[]
+
+
+
 print(list_statment_word)
-class nettoyage_class():
+print(list2)
+class nettoyage_class(object):
 
     def __init__(self):
         self.repeat_regexp = re.compile(r'(\w*)(\w)\2(\w*)')
@@ -29,16 +34,31 @@ class nettoyage_class():
 
         ps = PorterStemmer()
         for i in data:
+
             a = word_tokenize(i)
+            s=""
             for y in a:
-                list_statement_steemed.append(ps.stem(y))
-        print("list steming",list_statement_steemed)
+                s+=ps.stem(y)+" "
+            list_statement_steemed.append(s)
+
         return list_statement_steemed
 
-
-    def replace(self, word):
+    def replace(self,word):
         repl_word = self.repeat_regexp.sub(self.repl, word)
         if repl_word != word:
-          return self.replace(repl_word)
+            return self.replace(repl_word)
         else:
-          return repl_word
+            return repl_word
+    def replace1(self,data):
+        for i in data:
+            a = word_tokenize(i)
+            s=""
+            for word in a:
+                s+=self.replace(word)+" "
+
+            list_remove_char.append(s)
+
+        return list_remove_char
+
+
+

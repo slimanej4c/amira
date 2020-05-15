@@ -12,5 +12,5 @@ class RepeatReplacer(object):
 
 
 replacer = RepeatReplacer()
-a=replacer.replace('looooove')
+a=replacer.replace('juuuuuusssste')
 print(a)
