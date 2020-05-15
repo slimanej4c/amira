@@ -35,9 +35,11 @@ class nettoyage_class(object):
         ps = PorterStemmer()
         for i in data:
 
+
             a = word_tokenize(i)
             s=""
             for y in a:
+
                 s+=ps.stem(y)+" "
             list_statement_steemed.append(s)
 
@@ -51,14 +53,18 @@ class nettoyage_class(object):
             return repl_word
     def replace1(self,data):
         for i in data:
-            a = word_tokenize(i)
+            k = re.sub(r"http\S+", "", i)
+            a = word_tokenize(k)
             s=""
             for word in a:
+                word = ''.join([i for i in word if not i.isdigit()])
                 s+=self.replace(word)+" "
 
             list_remove_char.append(s)
 
         return list_remove_char
+
+
 
 
 

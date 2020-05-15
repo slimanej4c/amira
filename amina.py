@@ -174,6 +174,7 @@ class job:
 
     def clean_text(self):
         self.data['statement']=self.data["statement"].apply(lambda x :" ".join(word.lower() for word in x.split()))
+
         self.data['statement']=self.data["statement"].str.replace(r"\W"," ")
         self.statement= list(self.data["statement"])
         self.statement = go_nettoyage.replace1(self.statement)
