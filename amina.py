@@ -84,15 +84,6 @@ class job:
 
 
     def bautton(self,dataset):
-        self.bpretreatement=Button(self.haut_frame2,text='Pretreatement',width=self.x//80,bg='#1B2631',fg='white', relief=GROOVE )
-        self.bpretreatement.grid(row=0,column=0,sticky=S)
-
-        self.bclassification = Button(self.haut_frame2, text='Classification',width=self.x//80,bg='#1B2631',fg='white', relief=GROOVE )
-        self.bclassification.grid(row=0, column=1,sticky=S)
-
-        self.ltext_data = Label(self.haut_frame3, text='text_data', width=self.x // 80,bg='#154360',fg='white', relief=FLAT)
-        self.ltext_data.grid(row=0, column=0, sticky=S)
-
 
 
         self.btext_cleaning = Button(self.gauche_frame, text='text_cleaning', width=self.x // 60,bg='#1B2631',fg='white', relief=GROOVE,command=self.clean_text)
@@ -101,45 +92,14 @@ class job:
                                      fg='white', relief=GROOVE, command=self.stemming)
         self.btext_cleaning.grid(row=0, column=1)
 
-        self.cbn_gran=ttk.Combobox (self.gauche_frame,values=['1','2'],width=self.x//150)
-        self.cbn_gran.grid(row=1, column=1,sticky=W)
-
-        self.rngram = Radiobutton(self.gauche_frame, text='N_GRAM..', value=1,width=self.x//100,bg='#154360',fg='white', relief=GROOVE)
-        self.rngram.grid(row=1, column=0, sticky=W)
-
-        self.rbag_of_word = Radiobutton(self.gauche_frame, text='Bag Of Word', value=2,width=self.x//100,bg='#154360',fg='white', relief=GROOVE)
-        self.rbag_of_word.grid(row=2, column=0, sticky=W)
-
-        self.rsteming = Radiobutton(self.gauche_frame, text='Steming', value=3,width=self.x//100,bg='#154360',fg='white', relief=GROOVE)
-        self.rsteming.grid(row=3, column=0, sticky=W)
-
-        self.btext_representation = Button(self.gauche_frame, text='Text representation', width=self.x // 60,bg='#1B2631',fg='white', relief=GROOVE)
-        self.btext_representation.grid(row=4, column=0)
-
-        self.rtfn = Radiobutton(self.gauche_frame, text='TFN', value=4,bg='#154360',fg='white', relief=GROOVE)
-        self.rtfn.grid(row=5, column=0, sticky=W)
-
-        self.rtf_idf = Radiobutton(self.gauche_frame, text='TF*IDF', value=5,bg='#154360',fg='white', relief=GROOVE)
-        self.rtf_idf.grid(row=5, column=1, sticky=W)
-
-        self.bcoding_text = Button(self.gauche_frame, text='Coding Text', width=self.x // 60,bg='#1B2631',fg='white', relief=GROOVE)
-        self.bcoding_text.grid(row=6, column=0)
-
-
 
         self.bunstructured_Data = Button(self.droit_frame, text='Unstructured Data', width=self.x // 60,bg='#1B2631',fg='white', relief=GROOVE,command=self.set_data)
         self.bunstructured_Data .grid(row=0, column=0,sticky=S)
 
-        self.bcollection_tweets = Button(self.droit_frame, text='Collection des tweets', width=self.x // 60,bg='#1B2631',fg='white', relief=GROOVE)
-        self.bcollection_tweets.grid(row=1, column=0)
+        self.bunstructured_Data = Button(self.gauche_frame, text='tf*idf', width=self.x // 60, bg='#1B2631',
+                                         fg='white', relief=GROOVE, command=self.tf_idf_)
+        self.bunstructured_Data.grid(row=1, column=0, sticky=S)
 
-        self.b1 = Button(self.droit_frame, text='Collection des tweets', width=self.x // 60,
-                                         bg='#1B2631', fg='white', relief=GROOVE)
-        self.b1.grid(row=2, column=0)
-
-        self.b2 = Button(self.droit_frame, text='Collection des tweets', width=self.x // 60,
-                                         bg='#1B2631', fg='white', relief=GROOVE)
-        self.b2.grid(row=3, column=0)
 
 
 
@@ -163,6 +123,19 @@ class job:
         self.scrollbarh.config(command=self.listbox.xview)
 
 
+
+    def tf_idf_(self):
+        import tf_idf2
+
+        li2=[]
+
+        for i in  self.statement:
+            li1=[]
+            li1.append(i)
+            li2.append(li1)
+
+        tf_idf2.tf_idf(li2)
+        print(li2[0])
     def set_data(self):
         self.FILETYPES = [("text files", "*.csv")]
         self.chemin1=(askopenfilename())
@@ -198,7 +171,7 @@ class job:
         self.bautton(self.statement)
 
         self.analyse_data()
-        print(self.data["statement"][0])
+
 
 
     def percentage(self,part,all):

@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 
 class tf_idf():
     def __init__(self,args):
-
         list_golbal=[]
         bow=[]
         for i in args:
@@ -17,7 +16,7 @@ class tf_idf():
 
         wordset=list(frozenset().union(*list_golbal))
 
-        wordict=dict.fromkeys(wordset,0)
+        #wordict=dict.fromkeys(wordset,0)
 
 
         list_global_dic=[]
@@ -27,8 +26,9 @@ class tf_idf():
                 wordict[word]+=1
             list_global_dic.append(wordict)
         print("list_global_dic)",list_global_dic)
+        print('bow',bow)
 
-        data=pd.DataFrame([list_global_dic[0],list_global_dic[0]])
+        data=pd.DataFrame([list_global_dic[0],list_global_dic[1]])
         print("dattta",data)
 
         tfbow = self.count_tf(list_global_dic, bow)
@@ -36,16 +36,18 @@ class tf_idf():
         print('tf',tfbow[1])
 
         idfs = self.count_idf(list_global_dic)
-        print("idfs",idfs)
+        print("idf",idfs)
 
 
         tf_idf = self.count_tf_idf(tfbow, idfs)
-        print(tf_idf[0])
-        print(tf_idf[1])
+        print('tf_idf',tf_idf)
+        print(list(tf_idf[0].keys()))
         #tf_idf2 = self.count_tf_idf(tfbow2, idfs)
 
-        data=pd.DataFrame([tf_idf[0],tf_idf[1]])
+        data=pd.DataFrame(tf_idf,columns=list(tf_idf[0].keys()))
+
         print(data)
+
 
     def count_tf(self,wordict,bow):
             tf_dict={}
@@ -87,5 +89,6 @@ class tf_idf():
 
             return lts_tf_idf
 
-list_text=[["the cat sat in my face"],["the dog sat in my bed"]]
-tf_idf(list_text)
+list_text=[["the cat sat in my 1 2 ... @face"],["the dog sat in my bed..... 1 . ;;;;"],["the dog sat in my bed"],["the dog sat in my bed"]]
+
+#tf_idf(list_text)

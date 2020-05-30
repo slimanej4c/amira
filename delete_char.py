@@ -22,4 +22,10 @@ result = ''.join([i for i in k if not i.isdigit()])
 print(result)
 text = re.sub(r"http\S+", "", text)
 
-print(text)
+
+
+import docx
+
+doc=docx.Document('abreveation.docx')
+
+print(doc.paragraphs[0].text)
