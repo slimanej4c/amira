@@ -12,16 +12,16 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize ,word_tokenize
 import re
 list_statement_steemed=[]
+
 list_statment_word=[]
-list_remove_char=[]
+
 lis=['hello word','how rae you']
 a=''
 list2=[]
 
 
 
-print(list_statment_word)
-print(list2)
+
 class nettoyage_class(object):
 
     def __init__(self):
@@ -30,6 +30,7 @@ class nettoyage_class(object):
         pass
 
     def stem(self,data):
+        list_statement_steemed = []
         stop_words = set(stopwords.words("english"))
 
         ps = PorterStemmer()
@@ -52,6 +53,7 @@ class nettoyage_class(object):
         else:
             return repl_word
     def replace1(self,data):
+        list_remove_char = []
         for i in data:
             k = re.sub(r"http\S+", "", i)
             a = word_tokenize(k)
