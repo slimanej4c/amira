@@ -98,7 +98,7 @@ class job:
 
 
 
-        self.btext_cleaning = Button(self.gauche_frame, text='text_cleaning', width=self.x // 60,bg='#1B2631',fg='white', relief=GROOVE,command=self.clean_text)
+
 
         self.btext_steming= Button(self.gauche_frame, text='stemming', width=self.x // 60, bg='#1B2631',
                                      fg='white', relief=GROOVE, command=self.stemming)
@@ -199,7 +199,10 @@ class job:
         self.chemin11=(askopenfilename())
         #date_now = time.strftime('%d%m%Y')
         self.chemin=self.chemin11
-        self.btest_Data.grid(row=2, column=0, sticky=S, padx=20)
+
+        self.btext_cleaning = Button(self.gauche_frame, text='text_cleaning', width=self.x // 60, bg='#1B2631',
+                                     fg='white', relief=GROOVE, command=self.clean_text('data1'))
+        self.btext_cleaning.grid(row=0, column=0)
 
 
 
@@ -211,29 +214,36 @@ class job:
 
         if self.chemin11 !='' and self.chemin22 !='':
             self.load_csv(self.chemin,self.chemin2)
+        self.btext_cleaning = Button(self.gauche_frame, text='text_cleaning', width=self.x // 60, bg='#1B2631',
+                                     fg='white', relief=GROOVE, command=self.clean_text('data2'))
         self.btext_cleaning.grid(row=0, column=0)
 
-    def clean_text(self):
-        self.data['statement']=self.data["statement"].apply(lambda x :" ".join(word.lower() for word in x.split()))
 
-        self.data['statement']=self.data["statement"].str.replace(r"\W"," ")
-        self.statement= list(self.data["statement"])
-        self.statement = go_nettoyage.replace1(self.statement)
-        y1 = self.y // 20
-        y2 = self.y // 14
-        y3 = self.y - y1 - y2
-        x3 = self.x // 5
+    def clean_text(self,v):
+        if v=='data1':
+            self.data['statement']=self.data["statement"].apply(lambda x :" ".join(word.lower() for word in x.split()))
 
-        pt = Table(self.centre_frame1, dataframe=self.data, height=y3 - y2, width=3 * x3 - 30)
-        pt.show()
+            self.data['statement']=self.data["statement"].str.replace(r"\W"," ")
+            self.statement= list(self.data["statement"])
+            self.statement = go_nettoyage.replace1(self.statement)
+            y1 = self.y // 20
+            y2 = self.y // 14
+            y3 = self.y - y1 - y2
+            x3 = self.x // 5
 
-        self.btext_steming.grid(row=1, column=0)
+            pt = Table(self.centre_frame1, dataframe=self.data, height=y3 - y2, width=3 * x3 - 30)
+            pt.show()
+            self.btext_steming.grid(row=1, column=0)
+        if v=='data2':
 
-        self.data2['statement'] = self.data2["statement"].apply(lambda x: " ".join(word.lower() for word in x.split()))
 
-        self.data2['statement'] = self.data2["statement"].str.replace(r"\W", " ")
-        self.statement2 = list(self.data2["statement"])
-        self.statement2 = go_nettoyage.replace1(self.statement2)
+
+            self.data2['statement'] = self.data2["statement"].apply(lambda x: " ".join(word.lower() for word in x.split()))
+
+            self.data2['statement'] = self.data2["statement"].str.replace(r"\W", " ")
+            self.statement2 = list(self.data2["statement"])
+            self.statement2 = go_nettoyage.replace1(self.statement2)
+            self.btext_steming.grid(row=1, column=0)
 
 
 
@@ -249,9 +259,9 @@ class job:
         self.sentiment=list(self.data["sentiment"])
         self.statement=list(self.data["statement"])
 
+        header_list2 = ["id", "statement"]
 
-
-        self.data2 = pd.read_csv(chemin2, encoding="ISO-8859-1", sep=',', names=header_list)
+        self.data2 = pd.read_csv(chemin2, encoding="ISO-8859-1", sep=',', names=header_list2)
 
         self.data2 = self.data2.dropna(axis=0)
         per_data=int(len(self.data)*int(self.combo_per.get())/100)

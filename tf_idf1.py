@@ -2,7 +2,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
+import tkinter
 from tkinter import *
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
@@ -13,45 +13,52 @@ from pandastable import Table, TableModel
 
 from nettoyage import *
 
+
 class tf_idf():
+
+
+
     def __init__(self,args,frame_center,h,w):
-        self.f=frame_center
-        self.h=h
-        self.w=w
-        list_golbal=[]
-        bow=[]
-        for i in args:
-            for ii in i :
-                a=str(ii).split(" ")
-                list_golbal.append(set(a))
-                bow.append(a)
-
-        wordset=list(frozenset().union(*list_golbal))
-
-        #wordict=dict.fromkeys(wordset,0)
 
 
-        list_global_dic=[]
-        for i in bow:
-            wordict = dict.fromkeys(wordset, 0)
-            for word in i :
-                wordict[word]+=1
-            list_global_dic.append(wordict)
+                self.f=frame_center
+                self.h=h
+                self.w=w
+                list_golbal=[]
+                bow=[]
+                for i in args:
+                    for ii in i :
+                        a=str(ii).split(" ")
+                        list_golbal.append(set(a))
+                        bow.append(a)
+
+                wordset=list(frozenset().union(*list_golbal))
+
+                #wordict=dict.fromkeys(wordset,0)
 
 
-        data=pd.DataFrame([list_global_dic[0],list_global_dic[1]])
+                list_global_dic=[]
+                for i in bow:
+                    wordict = dict.fromkeys(wordset, 0)
+                    for word in i :
+                        wordict[word]+=1
+                    list_global_dic.append(wordict)
 
 
-        self.tfbow = self.count_tf(list_global_dic, bow)
+                data=pd.DataFrame([list_global_dic[0],list_global_dic[1]])
 
 
-        self.idfs = self.count_idf(list_global_dic)
+                self.tfbow = self.count_tf(list_global_dic, bow)
 
 
-        self.tf_idf = self.count_tf_idf(self.tfbow, self.idfs)
+                self.idfs = self.count_idf(list_global_dic)
 
-        #tf_idf2 = self.count_tf_idf(tfbow2, idfs)
-        self.afficher_idf()
+
+                self.tf_idf = self.count_tf_idf(self.tfbow, self.idfs)
+
+                #tf_idf2 = self.count_tf_idf(tfbow2, idfs)
+                self.afficher_idf()
+
 
 
     def afficher_idf(self):

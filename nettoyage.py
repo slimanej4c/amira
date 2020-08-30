@@ -2,10 +2,10 @@
 
 
 
-
-
+import nltk
+#nltk.download()
 import xlrd
-import django
+
 import pandas as pd
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
