@@ -14,11 +14,12 @@ import tf_idf2
 import train_test
 
 from abré import *
-
+import train_test2
 
 class job:
     def __init__(self, root):
         self.root = root
+        self.root.title('kenza')
         self.z = '0'
         self.x = 1000
         self.y = 700
@@ -35,8 +36,6 @@ class job:
             self.FILETYPES = [("text files", "*.csv")]
             self.chemin1 = (askopenfilename())
             # date_now = time.strftime('%d%m%Y')
-
-
 
         if v == 'test':
             self.FILETYPES = [("text files", "*.csv")]
@@ -333,32 +332,25 @@ class job:
         self.btraitement1=Button(self.gauche_frame, text='traitement', width=self.x // 40, bg='#0000FF',fg='white', command=affiche_traitement)
         self.btraitement1.grid(row=1,column=0,pady=5)
 
-        self.bafficher_data1 = Button(self.gauche_frame, text='afficher data', width=self.x // 40, bg='#0000FF', fg='white',)
-        self.bafficher_data1.grid(row=0, column=0, pady=5)
+        self.bafficher_data1 = Button(self.gauche_frame, text='afficher data', width=self.x // 40, bg='#0000FF', fg='white',command=lambda :self.affiche_data(self.data1,'train'))
+        self.bafficher_data1.grid(row=9, column=0, pady=5)
 
-        self.bidf_tf1 = Button(self.gauche_frame, text='tf*idf_train', width=self.x // 40, bg='#0000FF',fg='white')
+        self.bidf_tf1 = Button(self.gauche_frame, text='tf*idf_train', width=self.x // 40, bg='#0000FF',fg='white',command=self.tf_idf_1)
         self.bidf_tf1.grid(row=4,column=0,pady=20)
 
-        self.bafficheidf_train1 = Button(self.gauche_frame, text='afficher idf_tf train', width=self.x // 40, bg='#0000FF', fg='white' )
+        self.bafficheidf_train1 = Button(self.gauche_frame, text='afficher idf_tf train', width=self.x // 40, bg='#0000FF', fg='white', command=lambda:self.go.afficher_idf() )
 
-        self.bafficheidf_train1.grid(row=5, column=0,pady=20)
+        self.bafficheidf_train1.grid(row=10, column=0,pady=20)
+        def go():
+            if self.d1:
 
-        self.bentrainer1 = Button(self.gauche_frame, text='entrainer', width=self.x // 40,bg='#0000FF',fg='white',  )
+                   self.go_train = train_test2.train_test(self.data1['statement'], self.data1['sentiment'],
+                                                  None)
+                   self.go_train.entrainer(self.root)
+
+        self.bentrainer1 = Button(self.gauche_frame, text='entrainer', width=self.x // 40,bg='#0000FF',fg='white', command=lambda:go()  )
         self.bentrainer1.grid(row=6, column=0,pady=20)
 
-
-
-    def update_frame_gauche(self):
-        y1 = self.y // 20
-        y2 = self.y // 14
-        y3 = self.y - y1 - y2
-        x3 = self.x // 5
-        self.gauche_frame = Frame(self.global_frame, height=y3, width=x3, bg='#85C1E9')
-        self.gauche_frame.grid(row=3, column=0, rowspan=2, sticky=W)
-        self.gauche_frame.grid_propagate(0)
-
-        self.centre_frame1 = Frame(self.global_frame)
-        self.centre_frame1.grid(row=3, column=0, sticky=N)
 
     def btest(self):
         self.update_frame_gauche()
@@ -397,21 +389,34 @@ class job:
                                    command=affiche_traitement)
         self.btraitement2.grid(row=1, column=0, pady=5)
 
-        self.bafficher_data2 = Button(self.gauche_frame, text='afficher data test', width=self.x // 40, bg='#0000FF',
+        self.bafficher_data2 = Button(self.gauche_frame, text='afficher data test', width=self.x // 40, bg='#0000FF',command=lambda :self.affiche_data(self.data2,'test'),
                                       fg='white', )
-        self.bafficher_data2.grid(row=0, column=0, pady=5)
+        self.bafficher_data2.grid(row=9, column=0, pady=5)
 
-        self.bidf_tf2 = Button(self.gauche_frame, text='tf*idf test', width=self.x // 40, bg='#0000FF', fg='white')
+
+
+        self.bidf_tf2 = Button(self.gauche_frame, text='tf*idf test', width=self.x // 40, bg='#0000FF', fg='white',command=self.tf_idf_2)
         self.bidf_tf2.grid(row=4, column=0, pady=20)
 
-        self.bafficheidf_train2 = Button(self.gauche_frame, text='afficher idf_tf test', width=self.x // 40,
+        self.bafficheidf_train2 = Button(self.gauche_frame, text='afficher idf_tf test', width=self.x // 40, command=lambda:self.go.afficher_idf(),
                                          bg='#0000FF', fg='white')
 
-        self.bafficheidf_train2.grid(row=5, column=0, pady=20)
+        self.bafficheidf_train2.grid(row=11, column=0, pady=20)
 
-        self.bentrainer2 = Button(self.gauche_frame, text='calculer les resultats', width=self.x // 40, bg='#0000FF', fg='white', )
-        self.bentrainer2.grid(row=6, column=0, pady=20)
+        lscore=Label(self.gauche_frame,text="")
 
+
+        self.btester2 = Button(self.gauche_frame, text='afficher test classé', width=self.x // 40, bg='#0000FF', fg='white', command=lambda:self.go_train.affi_test(self.centre_frame1) )
+        self.btester2.grid(row=12, column=0, pady=20)
+
+        self.bresultat_tester2 = Button(self.gauche_frame, text='afficher les resultat de test ', width=self.x // 40, bg='#0000FF',
+                               fg='white', command=lambda: self.go_train.tester(lscore))
+
+
+        self.bresultat_tester2.grid(row=13, column=0, pady=20)
+        self.bclasser2 = Button(self.gauche_frame, text='classer', width=self.x // 40, bg='#0000FF',fg='white',
+                                  command=lambda: self.go_train.utiliser_svm(self.centre_frame1, self.data2))
+        self.bclasser2.grid(row=6, column=0, pady=20)
 
 
 
@@ -420,7 +425,7 @@ class job:
 
         li2=[]
 
-        for i in  self.statement:
+        for i in  self.statement1:
             li1=[]
             li1.append(i)
             li2.append(li1)
@@ -431,9 +436,36 @@ class job:
         h = y3 - y2
         w= 3 * x3 - 30
         self.go=tf_idf1.tf_idf(li2[0:1000], self.centre_frame1, h, w)
-        self.bafficheidf_train = Button(self.haut_frame3, text='afficher idf_tf train', command=self.go.afficher_idf,
-                                        width=self.x // 40, bg='#0000FF',
-                                        fg='white', relief=GROOVE, )
+
+
+
+        """def tester():
+            self.btest_data.grid(row=2, column=0)
+
+        self.butiliser_model = Button(self.haut_frame3, text='tester',
+                                 command=tester,width=self.x // 40, bg='#1B2631',fg='white', relief=GROOVE, )"""
+
+
+
+    def update_frame_gauche(self):
+        y1 = self.y // 20
+        y2 = self.y // 14
+        y3 = self.y - y1 - y2
+        x3 = self.x // 5
+        self.gauche_frame = Frame(self.global_frame, height=y3, width=x3, bg='#85C1E9')
+        self.gauche_frame.grid(row=3, column=0, rowspan=2, sticky=W)
+        self.gauche_frame.grid_propagate(0)
+
+        self.centre_frame1 = Frame(self.global_frame)
+        self.centre_frame1.grid(row=3, column=0, sticky=N)
+
+
+
+
+
+
+
+
 
 
 
@@ -442,11 +474,10 @@ class job:
 
     def tf_idf_2(self):
 
+        li2 = []
 
-        li2=[]
-
-        for i in  self.statement2:
-            li1=[]
+        for i in self.statement2:
+            li1 = []
             li1.append(i)
             li2.append(li1)
         y1 = self.y // 20
@@ -454,13 +485,8 @@ class job:
         y3 = self.y - y1 - y2
         x3 = self.x // 5
         h = y3 - y2
-        w= 3 * x3 - 30
-        self.goo=tf_idf2 .tf_idf(li2[0:1000], self.centre_frame1, h, w)
-
-
-
-
-
+        w = 3 * x3 - 30
+        self.go2 = tf_idf2.tf_idf(li2[0:1000], self.centre_frame1, h, w)
 
 
 if __name__ == '__main__':
