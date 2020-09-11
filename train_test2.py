@@ -4,6 +4,8 @@ import tkinter
 from tkinter import *
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 # from sklearn.cross_validation import train_test_split
+
+from PIL import ImageTk , Image
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import svm
@@ -50,7 +52,7 @@ class train_test():
 
 
 
-    def tester(self,lscore):
+    def tester(self,lscore,lscore2,lscore3):
         x_test = self.cv.transform(self.df_x_test.apply(lambda x: np.str_(x)))
         pred = self.mb.predict(x_test)
 
@@ -70,8 +72,13 @@ class train_test():
                  un+=1
 
         print(count / len(pred))
-        lscore['text']='score :\n '+'les vrai :'+str(round(count *100/ len(pred),2))+'%\n'+'faux neg :'+str(round(zero*100/ len(pred),2))+'%\n'+'faux pos'+str(round(un*100/ len(pred),2))
+        lscore['text']='les vrai :'+str(round(count *100/ len(pred),2))+'%'
+        lscore2['text']='faux negative :'+str(round(zero*100/ len(pred),2))+'%'
+        lscore3['text']='faux pos'+str(round(un*100/ len(pred),2))+'%'
+        #+'%\n'+'faux neg :'+str(round(zero*100/ len(pred),2))+'%\n'+'faux pos'+str(round(un*100/ len(pred),2))
         lscore.grid(row=14,column=0)
+        lscore2.grid(row=15,column=0)
+        lscore3.grid(row=16,column=0)
 
 
 

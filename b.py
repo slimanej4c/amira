@@ -228,7 +228,7 @@ class job:
         ltitre = Label(self.haut_frame1, text='analyse des sentiments', font=('arian',30),bg='#85C1E9')
         ltitre.grid(row=0, column=0,pady=25)
 
-        img = Image.open('header.jpg')
+        img = Image.open('mira/face1.jpg')
         self.limage = ImageTk.PhotoImage(img)
 
         limage = Label(self.haut_frame2, text='démarer',image=self.limage)
@@ -237,7 +237,7 @@ class job:
         img = Image.open('button.jpg')
         self.bimage = ImageTk.PhotoImage(img)
 
-        bdemarer=Button(self.haut_frame3,command=self.frame2,text='démarer',image=self.bimage)
+        bdemarer=Button(self.haut_frame3,command=self.frame2,text='démarer',image=self.bimage, compound="center",font=('arial',15))
         bdemarer.grid(row=0,column=0)
 
 
@@ -256,7 +256,7 @@ class job:
         self.haut_frame1.grid(row=0, column=0, sticky=N)
         self.haut_frame1.grid_propagate(0)
 
-        self.haut_frame2 = Frame(self.global_frame, height=y2 / 2, width=self.x, bg='#85C1E9')
+        self.haut_frame2 = Frame(self.global_frame, height=y2*2 / 2, width=self.x, bg='#85C1E9')
         self.haut_frame2.grid(row=1, column=0, sticky=N)
         self.haut_frame2.grid_propagate(0)
         self.haut_frame2.grid_rowconfigure(0, weight=1)
@@ -286,61 +286,90 @@ class job:
         self.bas_frame.grid(row=4, column=0, sticky=S)
         self.bas_frame.grid_propagate(0)
 
-        self.bpretraitement= Button(self.haut_frame2, text='prétraitement', command=self.btrain)
-        self.bpretraitement.grid(row=0, column=0)
-        self.bclassification = Button(self.haut_frame2, text='classification', command=self.btest)
+        self.button_color = '#9BB40B'
+        self.button_colorf = 'black'
+        img = Image.open('mira/pretraitement.png')
+        self.bimage10= ImageTk.PhotoImage(img)
+
+        self.bpretraitement= Button(self.haut_frame2, text='prétraitement', command=self.btrain,bg=self.button_color, fg=self.button_colorf,image=self.bimage10, compound="right",font=('arial',12))
+        self.bpretraitement.grid(row=0, column=0,padx=4)
+
+
+        img = Image.open('mira/classification.jpg')
+        self.bimage111= ImageTk.PhotoImage(img)
+
+        self.bclassification = Button(self.haut_frame2, text='classification', command=self.btest,bg=self.button_color, fg=self.button_colorf,image=self.bimage111, compound="right",font=('arial',12))
         self.bclassification.grid(row=0, column=1)
 
     def btrain(self):
+        self.button_color='#9BB40B'
+        self.button_colorf='black'
         self.update_frame_gauche()
+        self.update_frame_droit()
         if self.d1:
             self.affiche_data(self.data1,'train')
 
+        img = Image.open('mira/import-data.png')
+        self.bimage1 = ImageTk.PhotoImage(img)
+        self.bimport_data1 = Button(self.droit_frame, text='import data train ',bg=self.button_color, fg=self.button_colorf,image=self.bimage1, compound="right",font=('arial',12), command=lambda:self.set_data('train'))
 
-        self.bimport_data1 = Button(self.droit_frame, text='import data train ', width=self.x // 40,bg='#0000FF', fg='white', command=lambda:self.set_data('train'))
+        self.bimport_data1.grid(row=0, column=0,pady=15,padx=20)
+        img = Image.open('mira/pourcentage.jpg')
+        self.bimage2 = ImageTk.PhotoImage(img)
 
-        self.bimport_data1.grid(row=0, column=0,pady=15)
-
-
-        self.lper1 = Label(self.droit_frame, text='percentage',width=self.x // 40,bg='#0000FF', fg='white')
+        self.lper1 = Label(self.droit_frame, text='      percentage    ',bg=self.button_color,fg=self.button_colorf,image=self.bimage2, compound="right",font=('arial',12),)
         self.lper1.grid(row=1, column=0)
         self.combo_percentage1 = ttk.Combobox(self.droit_frame, values=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100])
 
         self.combo_percentage1.grid(row=2, column=0)
 
-        self.valide1 = Button(self.droit_frame, text='valider ', width=self.x // 40, bg='#0000FF',
-                                    fg='white', command=lambda: self.load_csv(self.chemin1, 'train'))
+        self.valide1 = Button(self.droit_frame, text='valider ', width=self.x // 40, bg=self.button_color,height=2,font=('arial',9),
+                                    fg=self.button_colorf, command=lambda: self.load_csv(self.chemin1, 'train'))
 
         self.valide1.grid(row=3,column=0,pady=10)
+        img = Image.open('mira/clean.png')
+        self.bimage4 = ImageTk.PhotoImage(img)
 
-
-        self.btrain_cleaning1 = Button(self.gauche_frame, text='cleaning', width=self.x // 40,
-                                      bg='#0000FF', fg='white', relief=GROOVE,command=lambda:self.clean_text('train') )
+        self.btrain_cleaning1 = Button(self.gauche_frame, text='    cleaning        ',bg=self.button_color, fg=self.button_colorf,image=self.bimage4, compound="right",
+                                       relief=GROOVE,command=lambda:self.clean_text('train') )
 
 
 
 
         self.bimport_data1.grid(row=0, column=0, pady=15)
 
-        self.btrain_steming1 = Button(self.gauche_frame, text='stemming', width=self.x // 40, bg='#0000FF',
-                                     fg='white', relief=GROOVE,command=lambda:self.stemming('train'))
+        img = Image.open('mira/stemming.png')
+        self.bimage5 = ImageTk.PhotoImage(img)
+
+        self.btrain_steming1 = Button(self.gauche_frame, text='    stemming     ',bg=self.button_color, fg=self.button_colorf,image=self.bimage5, compound="right",
+                                      relief=GROOVE,command=lambda:self.stemming('train'))
         def affiche_traitement():
-            self.btrain_cleaning1.grid(row=2,column=0,sticky=W)
-            self.btrain_steming1.grid(row=3,column=0,sticky=W)
+            self.btrain_cleaning1.grid(row=2,column=0,sticky=W,padx=10)
+            self.btrain_steming1.grid(row=3,column=0,sticky=W,padx=10)
 
-
-        self.btraitement1=Button(self.gauche_frame, text='traitement', width=self.x // 40, bg='#0000FF',fg='white', command=affiche_traitement)
+        img = Image.open('mira/traitement_data.jpg')
+        self.bimage3 = ImageTk.PhotoImage(img)
+        self.btraitement1=Button(self.gauche_frame, text='       traitement        ', command=affiche_traitement,bg=self.button_color, fg=self.button_colorf,image=self.bimage3, compound="right",font=('arial',12))
         self.btraitement1.grid(row=1,column=0,pady=5)
 
-        self.bafficher_data1 = Button(self.gauche_frame, text='afficher data', width=self.x // 40, bg='#0000FF', fg='white',command=lambda :self.affiche_data(self.data1,'train'))
-        self.bafficher_data1.grid(row=9, column=0, pady=5)
 
-        self.bidf_tf1 = Button(self.gauche_frame, text='tf*idf_train', width=self.x // 40, bg='#0000FF',fg='white',command=self.tf_idf_1)
-        self.bidf_tf1.grid(row=4,column=0,pady=20)
+        img = Image.open('mira/afficher_data.jpg')
+        self.bimage6= ImageTk.PhotoImage(img)
 
-        self.bafficheidf_train1 = Button(self.gauche_frame, text='afficher idf_tf train', width=self.x // 40, bg='#0000FF', fg='white', command=lambda:self.go.afficher_idf() )
+        self.bafficher_data1 = Button(self.gauche_frame, text='    afficher data        ',bg=self.button_color, fg=self.button_colorf,image=self.bimage6, compound="right",font=('arial',12) ,
+                                      command=lambda :self.affiche_data(self.data1,'train'))
+        self.bafficher_data1.grid(row=9, column=0)
 
-        self.bafficheidf_train1.grid(row=10, column=0,pady=20)
+        img = Image.open('mira/idf.jpg')
+        self.bimage7 = ImageTk.PhotoImage(img)
+        self.bidf_tf1 = Button(self.gauche_frame, text='      tf*idf_train         ',command=self.tf_idf_1,bg=self.button_color, fg=self.button_colorf,image=self.bimage7, compound="right",font=('arial',12) ,)
+        self.bidf_tf1.grid(row=4,column=0,pady=2)
+
+        img = Image.open('mira/afficher_data.jpg')
+        self.bimage8 = ImageTk.PhotoImage(img)
+        self.bafficheidf_train1 = Button(self.gauche_frame, text='afficher idf_tf train   ',command=lambda:self.go.afficher_idf(),bg=self.button_color, fg=self.button_colorf,image=self.bimage8, compound="right",font=('arial',12)  )
+
+        self.bafficheidf_train1.grid(row=10, column=0,pady=2)
         def go():
             if self.d1:
 
@@ -348,22 +377,32 @@ class job:
                                                   None)
                    self.go_train.entrainer(self.root)
 
-        self.bentrainer1 = Button(self.gauche_frame, text='entrainer', width=self.x // 40,bg='#0000FF',fg='white', command=lambda:go()  )
-        self.bentrainer1.grid(row=6, column=0,pady=20)
+        img = Image.open('mira/model.png')
+        self.bimage9 = ImageTk.PhotoImage(img)
+        self.bentrainer1 = Button(self.gauche_frame, text='       entrainer           ', command=lambda:go() ,bg=self.button_color, fg=self.button_colorf,image=self.bimage9, compound="right",font=('arial',12) )
+        self.bentrainer1.grid(row=6, column=0,pady=2)
 
 
     def btest(self):
+
+
         self.update_frame_gauche()
+        self.update_frame_droit()
         if self.d2:
             self.affiche_data(self.data2,'test')
 
 
-        self.bimport_data2 = Button(self.droit_frame, text='import data test', width=self.x // 40, bg='#0000FF',
-                                    fg='white', command=lambda:self.set_data('test') )
+        img = Image.open('mira/import-data.png')
+        self.bimage1 = ImageTk.PhotoImage(img)
 
-        self.bimport_data2.grid(row=0, column=0, pady=15)
+        self.bimport_data2 = Button(self.droit_frame, text=' import data test ', bg=self.button_color, fg=self.button_colorf,image=self.bimage1, compound="right",font=('arial',12),
+                                     command=lambda:self.set_data('test') )
 
-        self.lper2 = Label(self.droit_frame, text='percentage', width=self.x // 40, bg='#0000FF', fg='white')
+        self.bimport_data2.grid(row=0, column=0, pady=15, padx=20)
+
+        img = Image.open('mira/pourcentage.jpg')
+        self.bimage2 = ImageTk.PhotoImage(img)
+        self.lper2 = Label(self.droit_frame, text='     percentage     ',  bg=self.button_color, fg=self.button_colorf,image=self.bimage2, compound="right",font=('arial',12),)
         self.lper2.grid(row=1, column=0)
         self.combo_percentage2 = ttk.Combobox(self.droit_frame,
                                               values=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,
@@ -371,52 +410,89 @@ class job:
 
         self.combo_percentage2.grid(row=2, column=0)
 
-        self.valide2 = Button(self.droit_frame, text='valider ', width=self.x // 40, bg='#0000FF',
-                              fg='white', command=lambda: self.load_csv(self.chemin2, 'test'))
+        self.valide2 = Button(self.droit_frame, text='valider ', width=self.x // 40, bg=self.button_color,height=2,font=('arial',9),
+                                    fg=self.button_colorf,
+                              command=lambda: self.load_csv(self.chemin2, 'test'))
 
         self.valide2.grid(row=3, column=0, pady=10)
-        self.btrain_cleaning2 = Button(self.gauche_frame, text='cleaning', width=self.x // 40,
-                                       bg='#0000FF', fg='white', relief=GROOVE,command=lambda:self.clean_text('test') )
 
-        self.btrain_steming2 = Button(self.gauche_frame, text='stemming', width=self.x // 40, bg='#0000FF',
-                                      fg='white', relief=GROOVE,command=lambda:self.stemming('test'))
+        img = Image.open('mira/clean.png')
+        self.bimage4 = ImageTk.PhotoImage(img)
+        self.btrain_cleaning2 = Button(self.gauche_frame, text='  cleaning   ', relief=GROOVE,command=lambda:self.clean_text('test'),  bg=self.button_color, fg=self.button_colorf,image=self.bimage4, compound="right",font=('arial',12), )
+
+        img = Image.open('mira/stemming.png')
+        self.bimage5 = ImageTk.PhotoImage(img)
+
+        self.btrain_steming2 = Button(self.gauche_frame, text='  stemming ',  bg=self.button_color, fg=self.button_colorf,image=self.bimage5, compound="right",font=('arial',12),
+                                       relief=GROOVE,command=lambda:self.stemming('test'))
 
         def affiche_traitement():
-            self.btrain_cleaning2.grid(row=2, column=0, sticky=W)
-            self.btrain_steming2.grid(row=3, column=0, sticky=W)
+            self.btrain_cleaning2.grid(row=2, column=0, sticky=W,padx=5)
+            self.btrain_steming2.grid(row=3, column=0, sticky=W,padx=5)
 
-        self.btraitement2 = Button(self.gauche_frame, text='traitement', width=self.x // 40, bg='#0000FF', fg='white',
+        img = Image.open('mira/traitement_data.jpg')
+        self.bimage3 = ImageTk.PhotoImage(img)
+
+        self.btraitement2 = Button(self.gauche_frame, text='      traitement       ',  bg=self.button_color, fg=self.button_colorf,image=self.bimage3, compound="right",font=('arial',12),
                                    command=affiche_traitement)
-        self.btraitement2.grid(row=1, column=0, pady=5)
+        self.btraitement2.grid(row=1, column=0)
 
-        self.bafficher_data2 = Button(self.gauche_frame, text='afficher data test', width=self.x // 40, bg='#0000FF',command=lambda :self.affiche_data(self.data2,'test'),
-                                      fg='white', )
-        self.bafficher_data2.grid(row=9, column=0, pady=5)
+        img = Image.open('mira/afficher_data.jpg')
+        self.bimage8 = ImageTk.PhotoImage(img)
+        self.bafficher_data2 = Button(self.gauche_frame, text='afficher data test ', command=lambda :self.affiche_data(self.data2,'test'), bg=self.button_color, fg=self.button_colorf,image=self.bimage8, compound="right",font=('arial',12),
+                                       )
+        self.bafficher_data2.grid(row=9, column=0)
+
+        img = Image.open('mira/idf.jpg')
+        self.bimage7 = ImageTk.PhotoImage(img)
+
+        self.bidf_tf2 = Button(self.gauche_frame, text='        tf*idf test       ', command=self.tf_idf_2 , bg=self.button_color, fg=self.button_colorf,image=self.bimage7, compound="right",font=('arial',12),)
+        self.bidf_tf2.grid(row=4, column=0,pady=2)
+
+        img = Image.open('mira/afficher_data.jpg')
+        self.bimage82 = ImageTk.PhotoImage(img)
+        self.bafficheidf_train2 = Button(self.gauche_frame, text='afficher idf_tf test', command=lambda:self.go.afficher_idf(),bg=self.button_color, fg=self.button_colorf,image=self.bimage82, compound="right",font=('arial',12),
+                                         )
+
+        self.bafficheidf_train2.grid(row=11, column=0, pady=2)
+
+        img = Image.open('mira/vrai.jpg')
+        self.bimage100 = ImageTk.PhotoImage(img)
+
+        lscore=Label(self.gauche_frame,text="",bg=self.button_color, fg=self.button_colorf,image=self.bimage100, compound="right",font=('arial',12),)
+
+        img = Image.open('mira/faux.jpg')
+        self.bimage101 = ImageTk.PhotoImage(img)
+
+        lscore2 = Label(self.gauche_frame, text="", bg=self.button_color, fg=self.button_colorf, image=self.bimage101,
+                       compound="right", font=('arial', 12), )
+
+        img = Image.open('mira/faux.jpg')
+        self.bimage102= ImageTk.PhotoImage(img)
+
+        lscore3 = Label(self.gauche_frame, text="", bg=self.button_color, fg=self.button_colorf, image=self.bimage102,
+                        compound="right", font=('arial', 12), )
 
 
 
-        self.bidf_tf2 = Button(self.gauche_frame, text='tf*idf test', width=self.x // 40, bg='#0000FF', fg='white',command=self.tf_idf_2)
-        self.bidf_tf2.grid(row=4, column=0, pady=20)
+        img = Image.open('mira/afficher_data.jpg')
+        self.bimage81 = ImageTk.PhotoImage(img)
+        self.btester2 = Button(self.gauche_frame, text='   afficher test       \n classé', command=lambda:self.go_train.affi_test(self.centre_frame1),bg=self.button_color, fg=self.button_colorf,image=self.bimage81, compound="right",font=('arial',12), )
+        self.btester2.grid(row=12, column=0, pady=2)
 
-        self.bafficheidf_train2 = Button(self.gauche_frame, text='afficher idf_tf test', width=self.x // 40, command=lambda:self.go.afficher_idf(),
-                                         bg='#0000FF', fg='white')
-
-        self.bafficheidf_train2.grid(row=11, column=0, pady=20)
-
-        lscore=Label(self.gauche_frame,text="")
-
-
-        self.btester2 = Button(self.gauche_frame, text='afficher test classé', width=self.x // 40, bg='#0000FF', fg='white', command=lambda:self.go_train.affi_test(self.centre_frame1) )
-        self.btester2.grid(row=12, column=0, pady=20)
-
-        self.bresultat_tester2 = Button(self.gauche_frame, text='afficher les resultat de test ', width=self.x // 40, bg='#0000FF',
-                               fg='white', command=lambda: self.go_train.tester(lscore))
+        img = Image.open('mira/test.png')
+        self.bimage15 = ImageTk.PhotoImage(img)
+        self.bresultat_tester2 = Button(self.gauche_frame, text='   afficher les   \n   resultat de test  ',bg=self.button_color, fg=self.button_colorf,image=self.bimage15, compound="right",font=('arial',12),
+                                command=lambda: self.go_train.tester(lscore,lscore2,lscore3))
 
 
-        self.bresultat_tester2.grid(row=13, column=0, pady=20)
-        self.bclasser2 = Button(self.gauche_frame, text='classer', width=self.x // 40, bg='#0000FF',fg='white',
+        self.bresultat_tester2.grid(row=13, column=0, pady=5)
+
+        img = Image.open('mira/classification.jpg')
+        self.bimage11 = ImageTk.PhotoImage(img)
+        self.bclasser2 = Button(self.gauche_frame, text='        classer         ' ,bg=self.button_color, fg=self.button_colorf,image=self.bimage11, compound="right",font=('arial',12),
                                   command=lambda: self.go_train.utiliser_svm(self.centre_frame1, self.data2))
-        self.bclasser2.grid(row=6, column=0, pady=20)
+        self.bclasser2.grid(row=6, column=0, pady=2)
 
 
 
@@ -460,17 +536,30 @@ class job:
         self.centre_frame1.grid(row=3, column=0, sticky=N)
 
 
+    def update_frame_droit(self):
+        y1 = self.y // 20
+        y2 = self.y // 14
+        y3 = self.y - y1 - y2
+        x3 = self.x // 5
+
+
+        self.droit_frame = Frame(self.global_frame, height=y3, width=x3, bg='#85C1E9')
+        self.droit_frame.grid(row=3, column=0, rowspan=2, sticky=E)
+        self.droit_frame.grid_propagate(0)
 
 
 
+    def update_frame2(self):
+        y1 = self.y // 20
+        y2 = self.y // 14
+        y3 = self.y - y1 - y2
+        x3 = self.x // 5
+        self.gauche_frame = Frame(self.global_frame, height=y3, width=x3, bg='#85C1E9')
+        self.gauche_frame.grid(row=3, column=0, rowspan=2, sticky=W)
+        self.gauche_frame.grid_propagate(0)
 
-
-
-
-
-
-
-
+        self.centre_frame1 = Frame(self.global_frame)
+        self.centre_frame1.grid(row=3, column=0, sticky=N)
 
     def tf_idf_2(self):
 
