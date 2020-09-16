@@ -25,6 +25,8 @@ class train_test():
         self.df_y_train = df_y_train[0:int(len(df_x_train)*9.5/10)]
         print("hii",self.df_x_train)
 
+        self.long=len(self.df_x_train)
+
 
         # cv=CountVectorizer()
        # self.df_x_train,self.df_x_test,self.df_y_train,self.df_y_test=train_test_split(df_x_train,df_y_train,test_size=0.2,random_state=2)
@@ -37,7 +39,7 @@ class train_test():
         self.cv = TfidfVectorizer(min_df=1, stop_words='english')
         self.x_train = self.cv.fit_transform(self.df_x_train.apply(lambda x: np.str_(x)))
 
-        self.x_test = self.cv.transform(self.df_x_test.apply(lambda x: np.str_(x)))
+
         if self.vmethod == 'MultinomialNB':
             self.mb = MultinomialNB()
         if self.vmethod == 'svm':
@@ -51,10 +53,13 @@ class train_test():
 
 
 
-    def tester(self,vscore,butiliser_model):
-        pred = self.mb.predict(self.x_test)
+    def tester(self,vscore,butiliser_model,df_x_test, df_y_test):
+        self.df_x_test2=df_x_test[0:self.long-1]
+        self.df_y_test2= df_y_test[0:self.long-1]
+        self.x_test2 = self.cv.transform(self.df_x_test2.apply(lambda x: np.str_(x)))
+        pred = self.mb.predict(self.x_test2)
 
-        actual = np.array(self.df_y_test)
+        actual = np.array(self.df_y_test2)
         count = 0
 
         for i in range(len(pred)):

@@ -18,10 +18,12 @@ class tf_idf():
 
 
 
-    def __init__(self,args,frame_center,h,w):
+    def __init__(self,args,root,h,w):
 
-
-                self.f=frame_center
+                centre_frame1 = Frame(root, bg='white', width=630, height=700)
+                centre_frame1.grid(row=3, column=0, sticky=N)
+                centre_frame1.grid_propagate(0)
+                self.f=centre_frame1
                 self.h=h
                 self.w=w
                 list_golbal=[]
@@ -57,13 +59,17 @@ class tf_idf():
                 self.tf_idf = self.count_tf_idf(self.tfbow, self.idfs)
 
                 #tf_idf2 = self.count_tf_idf(tfbow2, idfs)
-                self.afficher_idf()
+                self.afficher_idf(root)
 
 
 
-    def afficher_idf(self):
+    def afficher_idf(self,root):
+
+        centre_frame1 = Frame(root, bg='white', width=630, height=700)
+        centre_frame1.grid(row=3, column=0, sticky=N)
+        centre_frame1.grid_propagate(0)
         self.data = pd.DataFrame(self.tf_idf, columns=list(self.tf_idf[0].keys()))
-        pt = Table(self.f, dataframe=self.data, height=self.h, width=self.w)
+        pt = Table(centre_frame1, dataframe=self.data, height=self.h, width=self.w)
         pt.show()
 
 
